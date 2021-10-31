@@ -84,12 +84,14 @@ public class World {
     public static void main(String[] args) {
         System.out.println("Start");
 
-//        String[] commands = new String[]{"f", "f", "f", "l", "l"};
-//        Direction[] commands2 = new Direction[] {Direction.FORWARD, Direction.FORWARD, Direction.FORWARD, Direction.LEFT, Direction.LEFT};
+        Animal dog = new Animal();
+        String[] commands = {"r", "f", "forward", "coooo", "f"};
 
-        Direction[] dire = stringToEnum(args);
+        for (MoveDirection direction: OptionsPraser.parse(commands)) {
+        System.out.println(dog.toString());
+        dog.move(direction);
+        }
 
-        run2(dire);
 
         System.out.println("Stop");
     }

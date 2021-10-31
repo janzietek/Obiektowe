@@ -29,7 +29,8 @@ public class Vector2dTest {
 
     @Test
     public void upperRightTest () {
-        Assertions.assertTrue(new Vector2d(11, 11).equals(new Vector2d(9, 11).upperRight(new Vector2d(11, 9))));
+        //Assertions.assertTrue(new Vector2d(11, 11).equals(new Vector2d(9, 11).upperRight(new Vector2d(11, 9))));
+        Assertions.assertEquals(new Vector2d(11, 11), new Vector2d(9, 11).upperRight(new Vector2d(11, 9)));
     }
 
     @Test
