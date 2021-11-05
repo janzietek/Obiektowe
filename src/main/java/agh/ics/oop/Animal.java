@@ -23,6 +23,15 @@ public class Animal {
             return this.position;
     }
 
+    public MapDirection getOrientation () {
+        return this.orientation;
+    }
+
+
+    public Vector2d getPosition () {
+        return this.position;
+    }
+
     public void move (MoveDirection direction) {
         switch (direction) {
             case LEFT:
