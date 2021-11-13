@@ -1,27 +1,25 @@
 package agh.ics.oop;
 
 public class Animal {
-    private Vector2d position = new Vector2d (2, 2);
+    private Vector2d position;
     private MapDirection orientation = MapDirection.NORTH;
+    private IWorldMap map;
+
+    public Animal (IWorldMap map, Vector2d initialPosition) {
+        this.position = initialPosition;
+        this.map = map;
+    }
 
 
     public String toString() {
-        return position.toString() + " zwrócony na " + orientation.toString();
+        return switch (this.orientation) {
+            case NORTH -> "N";
+            case SOUTH -> "S";
+            case EAST -> "E";
+            case WEST -> "W";
+        };
     }
 
-    private Vector2d legalMove (boolean isBackward) {
-        Vector2d movement = this.orientation.toUnitVector();
-        if (isBackward) {
-            movement = movement.opposite();
-        }
-        Vector2d newPosition = this.position.add(movement);
-
-        if (newPosition.precedes(new Vector2d(4, 4)) && newPosition.follows(new Vector2d(0, 0))) {
-            return newPosition;
-        }
-        else
-            return this.position;
-    }
 
     public MapDirection getOrientation () {
         return this.orientation;
@@ -32,6 +30,7 @@ public class Animal {
         return this.position;
     }
 
+
     public void move (MoveDirection direction) {
         switch (direction) {
             case LEFT:
@@ -41,11 +40,18 @@ public class Animal {
                 this.orientation = orientation.next();
                 break;
             case FORWARD:
-                this.position = legalMove(false);
+                if (map.canMoveTo(this.orientation.toUnitVector().add(this.position)))
+                    this.position = this.orientation.toUnitVector().add(this.position);
                 break;
             case BACKWARD:
-                this.position = legalMove(true);
+                if (map.canMoveTo(this.orientation.toUnitVector().opposite().add(this.position)))
+                    this.position = this.orientation.toUnitVector().opposite().add(this.position);
                 break;
         }
+    }
+
+    public boolean isAt (Vector2d position) {
+        if (position.equals(this.position)) return true;
+        else return false;
     }
 }

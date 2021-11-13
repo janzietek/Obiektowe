@@ -4,7 +4,7 @@ import javax.management.openmbean.ArrayType;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class OptionsPraser {
+public class OptionsParser {
 
     public static MoveDirection[] parse (String[] commands) {
         int len = commands.length;
