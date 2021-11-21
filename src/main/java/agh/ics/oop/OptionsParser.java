@@ -11,13 +11,13 @@ public class OptionsParser {
         MoveDirection directions[] = new MoveDirection[len];
         int i = 0, j = 0;
         for (; i < len; i++) {
-            if (commands[i] == "f" || commands[i] == "forward")
+            if (commands[i].equals("f") || commands[i].equals("forward"))
                 directions[j] = MoveDirection.FORWARD;
-            else if (commands[i] == "b" || commands[i] == "backward")
+            else if (commands[i].equals("b") || commands[i].equals("backward"))
                 directions[j] = MoveDirection.BACKWARD;
-            else if (commands[i] == "l" || commands[i] == "left")
+            else if (commands[i].equals("l") || commands[i].equals("left"))
                 directions[j] = MoveDirection.LEFT;
-            else if (commands[i] == "r" || commands[i] == "right")
+            else if (commands[i].equals("r") || commands[i].equals("right"))
                 directions[j] = MoveDirection.RIGHT;
             else
                 j--;
