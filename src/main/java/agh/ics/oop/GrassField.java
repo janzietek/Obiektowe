@@ -1,42 +1,35 @@
 package agh.ics.oop;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Random;
 import java.lang.Math;
-
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class GrassField extends AbstractWorldMap implements IWorldMap{
-    private List<Grass> grasses = new LinkedList<>();
+    private Map<Vector2d, Grass> grasses = new LinkedHashMap<>();
 
 
     public GrassField (int n) {
         Random rand = new Random();
         while (grasses.size() < n) {
-            boolean test = true;
             Vector2d v = new Vector2d(rand.nextInt((int) Math.pow(10 * n, 0.5)), rand.nextInt((int) Math.pow(10 * n, 0.5)));
-            for (Grass g: grasses) {
-                if (g.getPosition().equals(v)) {
-                    test = false;
-                    break;
-                }
-            }
-            if (test) {
-                grasses.add(new Grass(v));
+            if (grasses.get(v) == null) {
+                grasses.put(v, new Grass(v));
             }
         }
     }
 
-    public List<Grass> getGrasses () {
-        return grasses;
-    }
 
     @Override
     public boolean isOccupied(Vector2d position) {
-        for (Grass g: grasses) {
-            if (g.isAt(position)) return true;
+        Object o = grasses.get(position);
+        if (o == null) {
+            return super.isOccupied(position);
         }
-        return super.isOccupied(position);
+        else {
+            return true;
+        }
     }
 
 
@@ -44,23 +37,23 @@ public class GrassField extends AbstractWorldMap implements IWorldMap{
     public Object objectAt(Vector2d position) {
         if (super.isOccupied(position))
             return super.objectAt(position);
-
-
-        for (Grass g: grasses) {
-            if (g.isAt(position)) return g;
+        else {
+            return grasses.get(position);
         }
-        return null;
     }
 
     @Override
     protected Vector2d getLowerLeft() {
         Vector2d fieldLowerLeft = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
 
-        for (Animal a: animals) {
-            fieldLowerLeft = fieldLowerLeft.lowerLeft(a.getPosition());
+        Set<Vector2d> animalPositions = animals.keySet();
+        for (Vector2d aP: animalPositions) {
+            fieldLowerLeft = fieldLowerLeft.lowerLeft(aP);
         }
-        for (Grass g: grasses) {
-            fieldLowerLeft = fieldLowerLeft.lowerLeft(g.getPosition());
+
+        Set<Vector2d> grassesPositions = grasses.keySet();
+        for (Vector2d gP: grassesPositions) {
+            fieldLowerLeft = fieldLowerLeft.lowerLeft(gP);
         }
         return fieldLowerLeft;
     }
@@ -69,11 +62,14 @@ public class GrassField extends AbstractWorldMap implements IWorldMap{
     protected Vector2d getUpperRight() {
         Vector2d fieldUpperRight = new Vector2d(Integer.MIN_VALUE, Integer.MIN_VALUE);
 
-        for (Animal a: animals) {
-            fieldUpperRight = fieldUpperRight.upperRight(a.getPosition());
+        Set<Vector2d> animalPositions = animals.keySet();
+        for (Vector2d aP: animalPositions) {
+            fieldUpperRight = fieldUpperRight.upperRight(aP);
         }
-        for (Grass g: grasses) {
-            fieldUpperRight = fieldUpperRight.upperRight(g.getPosition());
+
+        Set<Vector2d> grassesPositions = grasses.keySet();
+        for (Vector2d gP: grassesPositions) {
+            fieldUpperRight = fieldUpperRight.upperRight(gP);
         }
         return fieldUpperRight;
     }
