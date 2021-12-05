@@ -1,28 +1,25 @@
 package agh.ics.oop;
 
-import javax.management.openmbean.ArrayType;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class OptionsParser {
 
-    public static MoveDirection[] parse (String[] commands) {
+    public static MoveDirection[] parse (String[] commands) throws IllegalArgumentException {
         int len = commands.length;
-        MoveDirection directions[] = new MoveDirection[len];
-        int i = 0, j = 0;
-        for (; i < len; i++) {
+        MoveDirection[] directions = new MoveDirection[len];
+        for (int i = 0; i < len; i++) {
             if (commands[i].equals("f") || commands[i].equals("forward"))
-                directions[j] = MoveDirection.FORWARD;
+                directions[i] = MoveDirection.FORWARD;
             else if (commands[i].equals("b") || commands[i].equals("backward"))
-                directions[j] = MoveDirection.BACKWARD;
+                directions[i] = MoveDirection.BACKWARD;
             else if (commands[i].equals("l") || commands[i].equals("left"))
-                directions[j] = MoveDirection.LEFT;
+                directions[i] = MoveDirection.LEFT;
             else if (commands[i].equals("r") || commands[i].equals("right"))
-                directions[j] = MoveDirection.RIGHT;
+                directions[i] = MoveDirection.RIGHT;
             else
-                j--;
-            j++;
+                throw new IllegalArgumentException(commands[i] + " is not legal move specification");
+
         }
-        return Arrays.copyOfRange(directions, 0, j);
+        return directions;
     }
 }

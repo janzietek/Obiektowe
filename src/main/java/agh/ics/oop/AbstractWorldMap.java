@@ -5,11 +5,13 @@ import java.util.Map;
 
 public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
     protected Map<Vector2d,Animal> animals = new LinkedHashMap<>();
+    protected MapBoundary mapBoundary = new MapBoundary(this);
 
 
     @Override
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
         animals.put(newPosition, animals.get(oldPosition));
+        mapBoundary.positionChanged(oldPosition, newPosition);
         animals.remove(oldPosition);
     }
 
@@ -31,13 +33,15 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     }
 
     @Override
-    public boolean place(Animal animal) {
+    public boolean place(Animal animal) throws IllegalArgumentException {
         if (isOccupied(animal.getPosition())) {
             Object object = objectAt(animal.getPosition());
-            if (object.getClass() == animal.getClass())
-                return false;
+            if (object.getClass() == animal.getClass()) {
+                throw new IllegalArgumentException("Location " + animal.getPosition().toString() + " is already occupied");
+            }
         }
         animals.put(animal.getPosition(), animal);
+        mapBoundary.addObject(animal);
         animal.addObserver(this);
         return true;
     }
@@ -48,8 +52,10 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
         if (isOccupied(position)) {
             Object object = objectAt(position);
             Animal dog = animals.get(position);
-            if (object.getClass() == dog.getClass())
-                return false;
+            if (dog != null) {
+                if (object.getClass() == dog.getClass())
+                    return false;
+            }
         }
         return true;
     }

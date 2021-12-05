@@ -35,12 +35,4 @@ public class AnimalTest {
 //        Assertions.assertTrue(new Vector2d(3, 3).equals(guineaPig.getPosition()));
 //    }
 //
-//    @Test
-//    public void praseTest () {
-//        Animal guineaPig = new Animal();
-//        String[] commands = {"r", "f", "right", "coooo", "b", "l", "forward"};
-//        MoveDirection[] expectedCommands = {MoveDirection.RIGHT, MoveDirection.FORWARD, MoveDirection.RIGHT,MoveDirection.BACKWARD, MoveDirection.LEFT, MoveDirection.FORWARD};
-//
-//        Assertions.assertArrayEquals(OptionsParser.parse(commands), expectedCommands);
-//    }
 }

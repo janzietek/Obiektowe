@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class GrassField extends AbstractWorldMap implements IWorldMap{
-    private Map<Vector2d, Grass> grasses = new LinkedHashMap<>();
+    private final Map<Vector2d, Grass> grasses = new LinkedHashMap<>();
 
 
     public GrassField (int n) {
@@ -15,7 +15,9 @@ public class GrassField extends AbstractWorldMap implements IWorldMap{
         while (grasses.size() < n) {
             Vector2d v = new Vector2d(rand.nextInt((int) Math.pow(10 * n, 0.5)), rand.nextInt((int) Math.pow(10 * n, 0.5)));
             if (grasses.get(v) == null) {
-                grasses.put(v, new Grass(v));
+                Grass grass = new Grass(v);
+                grasses.put(v, grass);
+                super.mapBoundary.addObject(grass);
             }
         }
     }
@@ -44,33 +46,19 @@ public class GrassField extends AbstractWorldMap implements IWorldMap{
 
     @Override
     protected Vector2d getLowerLeft() {
-        Vector2d fieldLowerLeft = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
+        int x = mapBoundary.objetsByX.first().getPosition().x;
+        int y = mapBoundary.objetsByY.first().getPosition().y;
 
-        Set<Vector2d> animalPositions = animals.keySet();
-        for (Vector2d aP: animalPositions) {
-            fieldLowerLeft = fieldLowerLeft.lowerLeft(aP);
-        }
-
-        Set<Vector2d> grassesPositions = grasses.keySet();
-        for (Vector2d gP: grassesPositions) {
-            fieldLowerLeft = fieldLowerLeft.lowerLeft(gP);
-        }
-        return fieldLowerLeft;
+        Vector2d lowerLeft = new Vector2d(x, y);
+        return new Vector2d(x, y);
     }
 
     @Override
     protected Vector2d getUpperRight() {
-        Vector2d fieldUpperRight = new Vector2d(Integer.MIN_VALUE, Integer.MIN_VALUE);
+        int x = mapBoundary.objetsByX.last().getPosition().x;
+        int y = mapBoundary.objetsByY.last().getPosition().y;
 
-        Set<Vector2d> animalPositions = animals.keySet();
-        for (Vector2d aP: animalPositions) {
-            fieldUpperRight = fieldUpperRight.upperRight(aP);
-        }
-
-        Set<Vector2d> grassesPositions = grasses.keySet();
-        for (Vector2d gP: grassesPositions) {
-            fieldUpperRight = fieldUpperRight.upperRight(gP);
-        }
-        return fieldUpperRight;
+        Vector2d upperRight = new Vector2d(x, y);
+        return upperRight;
     }
 }
