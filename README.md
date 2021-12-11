@@ -1,2 +1,2 @@
 # Obiektowe
-Repozytorium do laboratoriów z programowania obiektowego
+Repozytorium do laboratoriów z programowania obiektowego.
