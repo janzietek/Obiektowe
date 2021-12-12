@@ -45,7 +45,7 @@ public class GrassField extends AbstractWorldMap implements IWorldMap{
     }
 
     @Override
-    protected Vector2d getLowerLeft() {
+    public Vector2d getLowerLeft() {
         int x = mapBoundary.objetsByX.first().getPosition().x;
         int y = mapBoundary.objetsByY.first().getPosition().y;
 
@@ -54,7 +54,7 @@ public class GrassField extends AbstractWorldMap implements IWorldMap{
     }
 
     @Override
-    protected Vector2d getUpperRight() {
+    public Vector2d getUpperRight() {
         int x = mapBoundary.objetsByX.last().getPosition().x;
         int y = mapBoundary.objetsByY.last().getPosition().y;
 

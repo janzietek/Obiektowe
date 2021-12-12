@@ -60,8 +60,8 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
         return true;
     }
 
-    protected abstract Vector2d getLowerLeft ();
-    protected abstract Vector2d getUpperRight ();
+    public abstract Vector2d getLowerLeft ();
+    public abstract Vector2d getUpperRight ();
 
     public String toString () {
         return new MapVisualizer(this).draw(getLowerLeft(), getUpperRight());
